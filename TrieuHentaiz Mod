@@ -12,7 +12,7 @@ local Tab2 = Window:MakeTab({
 	Name = "Aim Bot",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
-
+})
 Tab2:AddButton({
 	Name = "Aim Bot Fov",
 	Callback = function()
