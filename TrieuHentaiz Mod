@@ -3,99 +3,78 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/hom
 local Window = OrionLib:MakeWindow({Name = "TrieuHentaiz", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
 
 local Tab = Window:MakeTab({
-	Name = "HixBox",
+	Name = "HixBox Player",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
 local Tab2 = Window:MakeTab({
-	Name = "Aim Bot",
+	Name = "Chức năng",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 Tab2:AddButton({
-	Name = "Aim Bot Fov",
+	Name = "Ghim Bám NGười Chơi",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
-        local Camera = workspace.CurrentCamera
-local Players = game:GetService("Players")
+        local teamCheck = false
+local fov = 100
+local smoothing = 1
+
 local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local LocalPlayer = Players.LocalPlayer
-local Holding = false
 
-_G.AimbotEnabled = true
-_G.TeamCheck = false -- If set to true then the script would only lock your aim at enemy team members.
-_G.AimPart = "Head" -- Where the aimbot script would lock at.
-_G.Sensitivity = 0 -- How many seconds it takes for the aimbot script to officially lock onto the target's aimpart.
+local FOVring = Drawing.new("Circle")
+FOVring.Visible = true
+FOVring.Thickness = 1.5
+FOVring.Radius = fov
+FOVring.Transparency = 1
+FOVring.Color = Color3.fromRGB(255, 128, 128)
+FOVring.Position = workspace.CurrentCamera.ViewportSize/2
 
-local function GetClosestPlayer()
-	local MaximumDistance = math.huge
-	local Target = nil
-  
-  	coroutine.wrap(function()
-    		wait(20); MaximumDistance = math.huge -- Reset the MaximumDistance so that the Aimbot doesn't remember it as a very small variable and stop capturing players...
-  	end)()
-
-	for _, v in next, Players:GetPlayers() do
-		if v.Name ~= LocalPlayer.Name then
-			if _G.TeamCheck == true then
-				if v.Team ~= LocalPlayer.Team then
-					if v.Character ~= nil then
-						if v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
-							if v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
-								local ScreenPoint = Camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
-								local VectorDistance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
-								
-								if VectorDistance < MaximumDistance then
-									Target = v
-                  							MaximumDistance = VectorDistance
-								end
-							end
-						end
-					end
-				end
-			else
-				if v.Character ~= nil then
-					if v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
-						if v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
-							local ScreenPoint = Camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
-							local VectorDistance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
-							
-							if VectorDistance < MaximumDistance then
-								Target = v
-               							MaximumDistance = VectorDistance
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-
-	return Target
+local function getClosest(cframe)
+   local ray = Ray.new(cframe.Position, cframe.LookVector).Unit
+   
+   local target = nil
+   local mag = math.huge
+   
+   for i,v in pairs(game.Players:GetPlayers()) do
+       if v.Character and v.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("HumanoidRootPart") and v ~= game.Players.LocalPlayer and (v.Team ~= game.Players.LocalPlayer.Team or (not teamCheck)) then
+           local magBuf = (v.Character.Head.Position - ray:ClosestPoint(v.Character.Head.Position)).Magnitude
+           
+           if magBuf < mag then
+               mag = magBuf
+               target = v
+           end
+       end
+   end
+   
+   return target
 end
 
-UserInputService.InputBegan:Connect(function(Input)
-    if Input.UserInputType == Enum.UserInputType.MouseButton2 then
-        Holding = true
-    end
+loop = RunService.RenderStepped:Connect(function()
+   local UserInputService = game:GetService("UserInputService")
+   local pressed = --[[UserInputService:IsKeyDown(Enum.KeyCode.E)]] UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) --Enum.UserInputType.MouseButton2
+   local localPlay = game.Players.localPlayer.Character
+   local cam = workspace.CurrentCamera
+   local zz = workspace.CurrentCamera.ViewportSize/2
+   
+   if pressed then
+       local Line = Drawing.new("Line")
+       local curTar = getClosest(cam.CFrame)
+       local ssHeadPoint = cam:WorldToScreenPoint(curTar.Character.Head.Position)
+       ssHeadPoint = Vector2.new(ssHeadPoint.X, ssHeadPoint.Y)
+       if (ssHeadPoint - zz).Magnitude < fov then
+           workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(CFrame.new(cam.CFrame.Position, curTar.Character.Head.Position), smoothing)
+       end
+   end
+   
+   if UserInputService:IsKeyDown(Enum.KeyCode.Delete) then
+       loop:Disconnect()
+       FOVring:Remove()
+   end
 end)
 
-UserInputService.InputEnded:Connect(function(Input)
-    if Input.UserInputType == Enum.UserInputType.MouseButton2 then
-        Holding = false
-    end
-end)
-
-RunService.RenderStepped:Connect(function()
-    if Holding == true and _G.AimbotEnabled == true then
-        TweenService:Create(Camera, TweenInfo.new(_G.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(Camera.CFrame.Position, GetClosestPlayer().Character[_G.AimPart].Position)}):Play()
-    end
-end)
-
-  	end    
+end    
 })
 
 Tab2:AddButton({
@@ -124,7 +103,6 @@ end
 
 Tab2:AddButton({
 	Name = "Định Vị Cho Mấy Thằng Mù",
-    color = "Red",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
      local Esp = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/x114/RobloxScripts/main/OpenSourceEsp"))()
@@ -142,6 +120,96 @@ Esp.NamesColor = Color3.fromRGB(255,255,255)
 Esp.NamesOutline = true
 Esp.NamesFont = 2
 Esp.NamesSize = 13
+end
+})
+
+Tab2:AddButton({
+	Name = "AimBot Cho Mobile",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+      --[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+local fov = 40
+local maxTransparency = 0.1 -- Transparência máxima dentro do círculo (0.1 = 10% de transparência)
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local Cam = game.Workspace.CurrentCamera
+
+local FOVring = Drawing.new("Circle")
+FOVring.Visible = true
+FOVring.Thickness = 2
+FOVring.Color = Color3.fromRGB(128, 0, 128) -- Cor roxa
+FOVring.Filled = false
+FOVring.Radius = fov
+FOVring.Position = Cam.ViewportSize / 2
+
+local function updateDrawings()
+    local camViewportSize = Cam.ViewportSize
+    FOVring.Position = camViewportSize / 2
+end
+
+local function onKeyDown(input)
+    if input.KeyCode == Enum.KeyCode.Delete then
+        RunService:UnbindFromRenderStep("FOVUpdate")
+        FOVring:Remove()
+    end
+end
+
+UserInputService.InputBegan:Connect(onKeyDown)
+
+local function lookAt(target)
+    local lookVector = (target - Cam.CFrame.Position).unit
+    local newCFrame = CFrame.new(Cam.CFrame.Position, Cam.CFrame.Position + lookVector)
+    Cam.CFrame = newCFrame
+end
+
+local function calculateTransparency(distance)
+    -- Ajuste a transparência com base na distância do centro do círculo
+    local maxDistance = fov -- A distância máxima do centro do círculo
+    local transparency = (1 - (distance / maxDistance)) * maxTransparency
+    return transparency
+end
+
+local function getClosestPlayerInFOV(trg_part)
+    local nearest = nil
+    local last = math.huge
+    local playerMousePos = Cam.ViewportSize / 2
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= Players.LocalPlayer then
+            local part = player.Character and player.Character:FindFirstChild(trg_part)
+            if part then
+                local ePos, isVisible = Cam:WorldToViewportPoint(part.Position)
+                local distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
+
+                if distance < last and isVisible and distance < fov then
+                    last = distance
+                    nearest = player
+                end
+            end
+        end
+    end
+
+    return nearest
+end
+
+RunService.RenderStepped:Connect(function()
+    updateDrawings()
+    local closest = getClosestPlayerInFOV("Head")
+    if closest and closest.Character:FindFirstChild("Head") then
+        lookAt(closest.Character.Head.Position)
+    end
+    
+    if closest then
+        local ePos, isVisible = Cam:WorldToViewportPoint(closest.Character.Head.Position)
+        local distance = (Vector2.new(ePos.x, ePos.y) - (Cam.ViewportSize / 2)).Magnitude
+        FOVring.Transparency = calculateTransparency(distance)
+    else
+        FOVring.Transparency = 0.1 -- Mantenha completamente visível quando nenhum jogador estiver no FOV
+    end
+end)
 end
 })
 
