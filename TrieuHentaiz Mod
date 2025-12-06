@@ -89,9 +89,7 @@ Tab2:AddButton({
 	Name = "Kill Aura",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
-     local CombatTab = Window:CreateTab("Combat", 4483362458)
-
-local CombatSection = CombatTab:CreateSection("Kill Aura")
+     local CombatSection = CombatTab:CreateSection("Kill Aura")
 
 local KillAuraToggle = CombatTab:CreateToggle({
    Name = "Kill Aura",
