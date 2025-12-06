@@ -10,7 +10,7 @@ local v15 = v14:CreateWindow({
 });
 local v16 = {
     Home = v15:AddTab({
-        Title = "Tab Information"
+        Title = "Tab Thông tin"
     }),
     Main = v15:AddTab({
         Title = "Tab Farming"
