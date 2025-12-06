@@ -13,6 +13,44 @@ local Tab2 = Window:MakeTab({
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
+
+local Tab3 = Window:MakeTab({
+	Name = "Chạy nhanh",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+Tab3:AddButton({
+	Name = "Chạy nhanh 50%",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+end
+})
+
+Tab3:AddButton({
+	Name = "Chạy nhanh 70%",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 70
+end
+})
+
+Tab3:AddButton({
+	Name = "Chạy nhanh 80% khuyên hạn chế dùng",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 80
+end
+})
+
+Tab3:AddButton({
+	Name = "Chạy nhanh 100% khuyên hạn chế dùng",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
+end
+})
+
 Tab2:AddButton({
 	Name = "Ghim Bám NGười Chơi",
 	Callback = function()
@@ -82,21 +120,6 @@ Tab2:AddButton({
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
       loadstring(game:HttpGet("https://raw.githubusercontent.com/TurboLite/Script/main/FixLag.lua"))()
-end
-})
-
-Tab2:AddButton({
-	Name = "Kill Aura",
-	Callback = function()
-        repeat wait(5) until game:IsLoaded()
-     local CombatSection = CombatTab:CreateSection("Kill Aura")
-
-local KillAuraToggle = CombatTab:CreateToggle({
-   Name = "Kill Aura",
-   CurrentValue = false,
-   Flag = "KillAuraToggle",
-   Callback = function(Value)
-      _G.KillAuraEnabled = Value
 end
 })
 
