@@ -1,44 +1,95 @@
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/hominhtrieu56-spec/TrieuHentaiz/refs/heads/main/TrieuHentaiz'))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/hominhtrieu56-spec/TrieuHentaiz/refs/heads/main/TrieuHentaiz')))()
 
-local Window = Rayfield:CreateWindow({
-   Name = "TrieuDepZai",
-   LoadingTitle = "Cùng Tận hưởng với TrieuDepzai",
-   LoadingSubtitle = "Loaded Successfully",
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = "TrieuHentaiz",
-      FileName = "TrieuConfig"
-   },
-   Discord = {
-      Enabled = false,
-      RememberJoins = true
-   },
-   KeySystem = false,
+local Window = OrionLib:MakeWindow({Name = "TrieuHentaiz [PVP]", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
+
+local Tab = Window:MakeTab({
+	Name = "HixBox Player",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
 })
 
--- Load ZAP module
-local ZAP = require(game:GetService("ReplicatedStorage").Client.ClientRemotes)
+local Tab2 = Window:MakeTab({
+	Name = "Chức năng",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+Tab2:AddButton({
+	Name = "Ghim Bám NGười Chơi",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+        local teamCheck = false
+local fov = 150
+local smoothing = 1
 
--- Services
-local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
--- ESP Variables
-local ESPFolder = Instance.new("Folder")
-ESPFolder.Name = "ESP"
-ESPFolder.Parent = game.CoreGui
+local FOVring = Drawing.new("Circle")
+FOVring.Visible = true
+FOVring.Thickness = 1.5
+FOVring.Radius = fov
+FOVring.Transparency = 1
+FOVring.Color = Color3.fromRGB(255, 128, 128)
+FOVring.Position = workspace.CurrentCamera.ViewportSize/2
 
--- ESP Settings
-local ESPConfig = {
-    MonsterESP = false,
-    ItemESP = false,
-    ShowNames = true,
-    ShowDistance = true,
-    ShowHighlight = true
-}
+local function getClosest(cframe)
+   local ray = Ray.new(cframe.Position, cframe.LookVector).Unit
+   
+   local target = nil
+   local mag = math.huge
+   
+   for i,v in pairs(game.Players:GetPlayers()) do
+       if v.Character and v.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("HumanoidRootPart") and v ~= game.Players.LocalPlayer and (v.Team ~= game.Players.LocalPlayer.Team or (not teamCheck)) then
+           local magBuf = (v.Character.Head.Position - ray:ClosestPoint(v.Character.Head.Position)).Magnitude
+           
+           if magBuf < mag then
+               mag = magBuf
+               target = v
+           end
+       end
+   end
+   
+   return target
+end
 
--- Combat Tab
-local CombatTab = Window:CreateTab("Combat", 4483362458)
+loop = RunService.RenderStepped:Connect(function()
+   local UserInputService = game:GetService("UserInputService")
+   local pressed = --[[UserInputService:IsKeyDown(Enum.KeyCode.E)]] UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) --Enum.UserInputType.MouseButton2
+   local localPlay = game.Players.localPlayer.Character
+   local cam = workspace.CurrentCamera
+   local zz = workspace.CurrentCamera.ViewportSize/2
+   
+   if pressed then
+       local Line = Drawing.new("Line")
+       local curTar = getClosest(cam.CFrame)
+       local ssHeadPoint = cam:WorldToScreenPoint(curTar.Character.Head.Position)
+       ssHeadPoint = Vector2.new(ssHeadPoint.X, ssHeadPoint.Y)
+       if (ssHeadPoint - zz).Magnitude < fov then
+           workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(CFrame.new(cam.CFrame.Position, curTar.Character.Head.Position), smoothing)
+       end
+   end
+   
+   if UserInputService:IsKeyDown(Enum.KeyCode.Delete) then
+       loop:Disconnect()
+       FOVring:Remove()
+   end
+end)
+
+end    
+})
+
+Tab2:AddButton({
+	Name = "Fix Lag Menu",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/TurboLite/Script/main/FixLag.lua"))()
+end
+})
+
+Tab2:AddButton({
+	Name = "Kill Aura",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+     local CombatTab = Window:CreateTab("Combat", 4483362458)
 
 local CombatSection = CombatTab:CreateSection("Kill Aura")
 
@@ -48,361 +99,219 @@ local KillAuraToggle = CombatTab:CreateToggle({
    Flag = "KillAuraToggle",
    Callback = function(Value)
       _G.KillAuraEnabled = Value
-   end,
+end
 })
 
-local AuraDistanceSlider = CombatTab:CreateSlider({
-   Name = "Kill Aura Distance",
-   Range = {10, 50},
-   Increment = 5,
-   Suffix = "Studs",
-   CurrentValue = 25,
-   Flag = "AuraDistance",
-   Callback = function(Value)
-      _G.AuraDistance = Value
-   end,
+Tab2:AddButton({
+	Name = "Bay",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+end
 })
 
-local KillAllButton = CombatTab:CreateButton({
-   Name = "Kill All Zombies",
-   Callback = function()
-      local character = Players.LocalPlayer.Character
-      if character and character:FindFirstChild("HumanoidRootPart") then
-          for _, monster in pairs(workspace.Monsters:GetChildren()) do
-              if monster:FindFirstChild("HumanoidRootPart") then
-                  ZAP.meleeAttack.fire({
-                      monsters = {monster},
-                      civilians = {},
-                      activeSlot = _G.WeaponSlot or 2
-                  })
-                  task.wait(0.1)
-              end
-          end
-      end
-   end,
+Tab2:AddButton({
+	Name = "Định Vị Cho Mấy Thằng Mù",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+     local Esp = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/x114/RobloxScripts/main/OpenSourceEsp"))()
+-- Boxes --
+Esp.Box = true
+Esp.BoxColor = Color3.fromRGB(255,255,255)
+Esp.BoxOutline = true
+Esp.BoxOutlineColor = Color3.fromRGB(0,0,0)
+-- HealthBars --
+Esp.HealthBar = true
+Esp.HealthBarSide = "Left" -- Left,Bottom,Right
+-- Names --
+Esp.Names = true
+Esp.NamesColor = Color3.fromRGB(255,255,255)
+Esp.NamesOutline = true
+Esp.NamesFont = 2
+Esp.NamesSize = 13
+end
 })
 
--- Items Tab
-local ItemsTab = Window:CreateTab("Items", 4483362458)
+Tab2:AddButton({
+	Name = "AimBot Cho Mobile",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+      --[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+local fov = 40
+local maxTransparency = 0.1 -- Transparência máxima dentro do círculo (0.1 = 10% de transparência)
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local Cam = game.Workspace.CurrentCamera
 
-local ItemsSection = ItemsTab:CreateSection("Item Management")
+local FOVring = Drawing.new("Circle")
+FOVring.Visible = true
+FOVring.Thickness = 2
+FOVring.Color = Color3.fromRGB(128, 0, 128) -- Cor roxa
+FOVring.Filled = false
+FOVring.Radius = fov
+FOVring.Position = Cam.ViewportSize / 2
 
-local BringBodiesButton = ItemsTab:CreateButton({
-   Name = "Bring Bodies",
-   Callback = function()
-      local character = Players.LocalPlayer.Character
-      if character and character.PrimaryPart then
-          for _, v in pairs(workspace.Interactables:GetChildren()) do 
-              if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and not v:FindFirstChild("ProductPriceTag") then
-                  v.PrimaryPart.CFrame = character.PrimaryPart.CFrame
-                  task.wait(0.05)
-              end
-          end
-      end
-   end,
-})
-
-local BringAllItemsButton = ItemsTab:CreateButton({
-   Name = "Bring All Items",
-   Callback = function()
-      local character = Players.LocalPlayer.Character
-      if character and character.PrimaryPart then
-          for _, v in pairs(workspace.Interactables:GetChildren()) do 
-              if v:IsA("Model") and not v:FindFirstChild("ProductPriceTag") and v.PrimaryPart then
-                  v.PrimaryPart.CFrame = character.PrimaryPart.CFrame
-                  task.wait(0.05)
-              end
-          end
-      end
-   end,
-})
-
--- Player Tab
-local PlayerTab = Window:CreateTab("Player", 4483362458)
-
-local PlayerSection = PlayerTab:CreateSection("Character Settings")
-
-local WalkSpeedSlider = PlayerTab:CreateSlider({
-   Name = "WalkSpeed",
-   Range = {16, 200},
-   Increment = 5,
-   Suffix = "Speed",
-   CurrentValue = 16,
-   Flag = "WalkSpeed",
-   Callback = function(Value)
-      _G.WalkSpeed = Value
-      local character = Players.LocalPlayer.Character
-      if character and character:FindFirstChild("Humanoid") then
-          character.Humanoid.WalkSpeed = Value
-      end
-   end,
-})
-
-local JumpPowerSlider = PlayerTab:CreateSlider({
-   Name = "JumpPower",
-   Range = {50, 200},
-   Increment = 10,
-   Suffix = "Power",
-   CurrentValue = 50,
-   Flag = "JumpPower",
-   Callback = function(Value)
-      _G.JumpPower = Value
-      local character = Players.LocalPlayer.Character
-      if character and character:FindFirstChild("Humanoid") then
-          character.Humanoid.JumpPower = Value
-      end
-   end,
-})
-
-local SlotDropdown = PlayerTab:CreateDropdown({
-   Name = "Weapon Slot",
-   Options = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
-   CurrentOption = "2",
-   Flag = "WeaponSlot",
-   Callback = function(Option)
-      _G.WeaponSlot = tonumber(Option)
-   end,
-})
-
--- ESP Tab
-local ESPTab = Window:CreateTab("ESP", 4483362458)
-
-local ESPSection = ESPTab:CreateSection("ESP Types")
-
-local MonsterESPToggle = ESPTab:CreateToggle({
-   Name = "Monster ESP",
-   CurrentValue = false,
-   Flag = "MonsterESP",
-   Callback = function(Value)
-      ESPConfig.MonsterESP = Value
-      UpdateESP()
-   end,
-})
-
-local ItemESPToggle = ESPTab:CreateToggle({
-   Name = "Item ESP",
-   CurrentValue = false,
-   Flag = "ItemESP",
-   Callback = function(Value)
-      ESPConfig.ItemESP = Value
-      UpdateESP()
-   end,
-})
-
-local ESPSettingsSection = ESPTab:CreateSection("ESP Settings")
-
-local ShowNamesToggle = ESPTab:CreateToggle({
-   Name = "Show Names",
-   CurrentValue = true,
-   Flag = "ShowNames",
-   Callback = function(Value)
-      ESPConfig.ShowNames = Value
-      UpdateESP()
-   end,
-})
-
-local ShowDistanceToggle = ESPTab:CreateToggle({
-   Name = "Show Distance",
-   CurrentValue = true,
-   Flag = "ShowDistance",
-   Callback = function(Value)
-      ESPConfig.ShowDistance = Value
-      UpdateESP()
-   end,
-})
-
-local ShowHighlightToggle = ESPTab:CreateToggle({
-   Name = "Show Highlight",
-   CurrentValue = true,
-   Flag = "ShowHighlight",
-   Callback = function(Value)
-      ESPConfig.ShowHighlight = Value
-      UpdateESP()
-   end,
-})
-
--- ESP Functions
-function CreateESP(part, color, name, distance)
-    local espGroup = {}
-    
-    -- Billboard GUI for text
-    if ESPConfig.ShowNames or ESPConfig.ShowDistance then
-        local billboard = Instance.new("BillboardGui")
-        billboard.Name = name .. "_Billboard"
-        billboard.Adornee = part
-        billboard.Size = UDim2.new(0, 200, 0, 50)
-        billboard.StudsOffset = Vector3.new(0, 3, 0)
-        billboard.AlwaysOnTop = true
-        billboard.Parent = ESPFolder
-        
-        local textLabel = Instance.new("TextLabel")
-        textLabel.Size = UDim2.new(1, 0, 1, 0)
-        textLabel.BackgroundTransparency = 1
-        textLabel.Text = ""
-        
-        if ESPConfig.ShowNames and ESPConfig.ShowDistance then
-            textLabel.Text = name .. "\n" .. math.floor(distance) .. " studs"
-        elseif ESPConfig.ShowNames then
-            textLabel.Text = name
-        elseif ESPConfig.ShowDistance then
-            textLabel.Text = math.floor(distance) .. " studs"
-        end
-        
-        textLabel.TextColor3 = color
-        textLabel.TextSize = 14
-        textLabel.Font = Enum.Font.GothamBold
-        textLabel.TextStrokeTransparency = 0
-        textLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
-        textLabel.Parent = billboard
-        
-        table.insert(espGroup, billboard)
-    end
-    
-    -- Highlight
-    if ESPConfig.ShowHighlight then
-        local highlight = Instance.new("Highlight")
-        highlight.Name = name .. "_Highlight"
-        highlight.Adornee = part
-        highlight.FillColor = color
-        highlight.OutlineColor = Color3.new(1, 1, 1)
-        highlight.FillTransparency = 0.3
-        highlight.OutlineTransparency = 0
-        highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-        highlight.Parent = ESPFolder
-        table.insert(espGroup, highlight)
-    end
-    
-    return espGroup
+local function updateDrawings()
+    local camViewportSize = Cam.ViewportSize
+    FOVring.Position = camViewportSize / 2
 end
 
-function ClearESP()
-    for _, child in pairs(ESPFolder:GetChildren()) do
-        child:Destroy()
+local function onKeyDown(input)
+    if input.KeyCode == Enum.KeyCode.Delete then
+        RunService:UnbindFromRenderStep("FOVUpdate")
+        FOVring:Remove()
     end
 end
 
-function UpdateESP()
-    ClearESP()
-    
-    local character = Players.LocalPlayer.Character
-    if not character or not character:FindFirstChild("HumanoidRootPart") then return end
-    local playerRoot = character.HumanoidRootPart
-    
-    -- Monster ESP
-    if ESPConfig.MonsterESP then
-        for _, monster in pairs(workspace.Monsters:GetChildren()) do
-            if monster:IsA("Model") then
-                -- Try to find any valid part for highlighting
-                local targetPart = monster:FindFirstChild("HumanoidRootPart") or monster:FindFirstChild("Head") or monster.PrimaryPart
-                if targetPart then
-                    local distance = (playerRoot.Position - targetPart.Position).Magnitude
-                    CreateESP(targetPart, Color3.fromRGB(255, 50, 50), "Monster: " .. monster.Name, distance)
+UserInputService.InputBegan:Connect(onKeyDown)
+
+local function lookAt(target)
+    local lookVector = (target - Cam.CFrame.Position).unit
+    local newCFrame = CFrame.new(Cam.CFrame.Position, Cam.CFrame.Position + lookVector)
+    Cam.CFrame = newCFrame
+end
+
+local function calculateTransparency(distance)
+    -- Ajuste a transparência com base na distância do centro do círculo
+    local maxDistance = fov -- A distância máxima do centro do círculo
+    local transparency = (1 - (distance / maxDistance)) * maxTransparency
+    return transparency
+end
+
+local function getClosestPlayerInFOV(trg_part)
+    local nearest = nil
+    local last = math.huge
+    local playerMousePos = Cam.ViewportSize / 2
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= Players.LocalPlayer then
+            local part = player.Character and player.Character:FindFirstChild(trg_part)
+            if part then
+                local ePos, isVisible = Cam:WorldToViewportPoint(part.Position)
+                local distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
+
+                if distance < last and isVisible and distance < fov then
+                    last = distance
+                    nearest = player
                 end
             end
         end
     end
-    
-    -- Item ESP (Bodies and Items)
-    if ESPConfig.ItemESP then
-        for _, item in pairs(workspace.Interactables:GetChildren()) do
-            if item:IsA("Model") then
-                -- Check if it's a body (has HumanoidRootPart) or regular item (no price tag)
-                local isBody = item:FindFirstChild("HumanoidRootPart")
-                local isItem = not item:FindFirstChild("ProductPriceTag")
-                
-                if isBody or isItem then
-                    local targetPart = item:FindFirstChild("HumanoidRootPart") or item.PrimaryPart
-                    if targetPart then
-                        local distance = (playerRoot.Position - targetPart.Position).Magnitude
-                        local espName = isBody and "Body: " .. item.Name or "Item: " .. item.Name
-                        local espColor = isBody and Color3.fromRGB(255, 165, 0) or Color3.fromRGB(50, 255, 50)
-                        CreateESP(targetPart, espColor, espName, distance)
-                    end
-                end
-            end
-        end
-    end
+
+    return nearest
 end
 
--- Info Tab
-local InfoTab = Window:CreateTab("Info", 4483362458)
-
-local InfoSection = InfoTab:CreateSection("Information")
-
-local InfoParagraph = InfoTab:CreateParagraph({
-   Title = "Bake or Die Script", 
-   Content = "â€¢ Kill Aura with adjustable distance\nâ€¢ Kill All Zombies button\nâ€¢ Bring Bodies & Items\nâ€¢ WalkSpeed & JumpPower sliders\nâ€¢ Monster & Item ESP (can be both on)\nâ€¢ ESP Settings: Names, Distance, Highlight\nâ€¢ Weapon slot selection"
+RunService.RenderStepped:Connect(function()
+    updateDrawings()
+    local closest = getClosestPlayerInFOV("Head")
+    if closest and closest.Character:FindFirstChild("Head") then
+        lookAt(closest.Character.Head.Position)
+    end
+    
+    if closest then
+        local ePos, isVisible = Cam:WorldToViewportPoint(closest.Character.Head.Position)
+        local distance = (Vector2.new(ePos.x, ePos.y) - (Cam.ViewportSize / 2)).Magnitude
+        FOVring.Transparency = calculateTransparency(distance)
+    else
+        FOVring.Transparency = 0.1 -- Mantenha completamente visível quando nenhum jogador estiver no FOV
+    end
+end)
+end
 })
 
--- Kill Aura Loop
-task.spawn(function()
-    while true do
-        task.wait()
-        if _G.KillAuraEnabled then
-            local character = Players.LocalPlayer.Character
-            if character and character:FindFirstChild("HumanoidRootPart") then
-                local root = character.HumanoidRootPart
-                local slot = _G.WeaponSlot or 2
-                local distance = _G.AuraDistance or 25
-                
-                for _, monster in pairs(workspace.Monsters:GetChildren()) do
-                    if monster:FindFirstChild("HumanoidRootPart") then
-                        local monsterDistance = (root.Position - monster.HumanoidRootPart.Position).Magnitude
-                        if monsterDistance < distance then
-                            ZAP.meleeAttack.fire({
-                                monsters = {monster},
-                                civilians = {},
-                                activeSlot = slot
-                            })
-                            break
-                        end
-                    end
-                end
-            end
-        end
-    end
-end)
+Tab:AddButton({
+	Name = "HitBox Player 20%",
+	Callback = function()
+       _G.HeadSize = 20
+_G.Disabled = true
 
--- Character Stats Loop
-task.spawn(function()
-    while true do
-        task.wait(1)
-        local character = Players.LocalPlayer.Character
-        if character and character:FindFirstChild("Humanoid") then
-            if _G.WalkSpeed then
-                character.Humanoid.WalkSpeed = _G.WalkSpeed
-            end
-            if _G.JumpPower then
-                character.Humanoid.JumpPower = _G.JumpPower
-            end
-        end
-    end
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+pcall(function()
+v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
+v.Character.HumanoidRootPart.Transparency = 0.7
+v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+v.Character.HumanoidRootPart.Material = "Neon"
+v.Character.HumanoidRootPart.CanCollide = false
 end)
-
--- ESP Update Loop
-task.spawn(function()
-    while true do
-        task.wait(0.5)
-        if ESPConfig.MonsterESP or ESPConfig.ItemESP then
-            UpdateESP()
-        else
-            ClearESP()
-        end
-    end
+end
+end
+end
 end)
+  	end    
+})
+Tab:AddButton({
+	Name = "HixBot Player 50%",
+	Callback = function()
+     _G.HeadSize = 50
+_G.Disabled = true
 
--- Notification
-Rayfield:Notify({
-   Title = "Trieu or Die Script Loaded",
-   Content = "All features are now available!",
-   Duration = 5,
-   Image = 4483362458,
-   Actions = {
-      Ignore = {
-         Name = "Okay!",
-         Callback = function()
-         print("Trieu or Die Script is ready!")
-      end
-   },
-},
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+pcall(function()
+v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
+v.Character.HumanoidRootPart.Transparency = 0.7
+v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+v.Character.HumanoidRootPart.Material = "Neon"
+v.Character.HumanoidRootPart.CanCollide = false
+end)
+end
+end
+end
+end)
+  	end    
+})
+Tab:AddButton({
+	Name = "HixBox Player 100%",
+	Callback = function()
+      _G.HeadSize = 100
+_G.Disabled = true
+
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+pcall(function()
+v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
+v.Character.HumanoidRootPart.Transparency = 0.7
+v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+v.Character.HumanoidRootPart.Material = "Neon"
+v.Character.HumanoidRootPart.CanCollide = false
+end)
+end
+end
+end
+end)
+  	end    
+})
+
+Tab:AddButton({
+	Name = "HixBot Player 200%",
+	Callback = function()
+        _G.HeadSize = 200
+_G.Disabled = true
+
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+pcall(function()
+v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
+v.Character.HumanoidRootPart.Transparency = 0.7
+v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+v.Character.HumanoidRootPart.Material = "Neon"
+v.Character.HumanoidRootPart.CanCollide = false
+end)
+end
+end
+end
+end)
+end    
 })
