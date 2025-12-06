@@ -13,12 +13,17 @@ local Tab2 = Window:MakeTab({
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
+local Tab3 = Window:MakeTab({
+	Name = "kill Aura",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
 Tab2:AddButton({
 	Name = "Ghim Bám NGười Chơi",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
         local teamCheck = false
-local fov = 100
+local fov = 150
 local smoothing = 1
 
 local RunService = game:GetService("RunService")
@@ -305,4 +310,88 @@ end
 end
 end)
 end    
+})
+Tab3:AddButton({
+	Name = "Kill Aura",
+	Callback = function()
+        repeat wait(5) until game:IsLoaded()
+        local teamCheck = false
+-- Combat Tab
+local CombatTab = Window:CreateTab("Combat", 4483362458)
+
+local CombatSection = CombatTab:CreateSection("Kill Aura")
+
+local KillAuraToggle = CombatTab:CreateToggle({
+   Name = "Kill Aura",
+   CurrentValue = false,
+   Flag = "KillAuraToggle",
+   Callback = function(Value)
+      _G.KillAuraEnabled = Value
+   end,
+})
+
+local AuraDistanceSlider = CombatTab:CreateSlider({
+   Name = "Kill Aura Distance",
+   Range = {10, 50},
+   Increment = 5,
+   Suffix = "Studs",
+   CurrentValue = 25,
+   Flag = "AuraDistance",
+   Callback = function(Value)
+      _G.AuraDistance = Value
+   end,
+})
+
+local KillAllButton = CombatTab:CreateButton({
+   Name = "Kill All Zombies",
+   Callback = function()
+      local character = Players.LocalPlayer.Character
+      if character and character:FindFirstChild("HumanoidRootPart") then
+          for _, monster in pairs(workspace.Monsters:GetChildren()) do
+              if monster:FindFirstChild("HumanoidRootPart") then
+                  ZAP.meleeAttack.fire({
+                      monsters = {monster},
+                      civilians = {},
+                      activeSlot = _G.WeaponSlot or 2
+                  })
+                  task.wait(0.1)
+              end
+          end
+      end
+   end,
+})
+
+-- Items Tab
+local ItemsTab = Window:CreateTab("Items", 4483362458)
+
+local ItemsSection = ItemsTab:CreateSection("Item Management")
+
+local BringBodiesButton = ItemsTab:CreateButton({
+   Name = "Bring Bodies",
+   Callback = function()
+      local character = Players.LocalPlayer.Character
+      if character and character.PrimaryPart then
+          for _, v in pairs(workspace.Interactables:GetChildren()) do 
+              if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and not v:FindFirstChild("ProductPriceTag") then
+                  v.PrimaryPart.CFrame = character.PrimaryPart.CFrame
+                  task.wait(0.05)
+              end
+          end
+      end
+   end,
+})
+
+local BringAllItemsButton = ItemsTab:CreateButton({
+   Name = "Bring All Items",
+   Callback = function()
+      local character = Players.LocalPlayer.Character
+      if character and character.PrimaryPart then
+          for _, v in pairs(workspace.Interactables:GetChildren()) do 
+              if v:IsA("Model") and not v:FindFirstChild("ProductPriceTag") and v.PrimaryPart then
+                  v.PrimaryPart.CFrame = character.PrimaryPart.CFrame
+                  task.wait(0.05)
+              end
+          end
+      end
+   end,
 })
