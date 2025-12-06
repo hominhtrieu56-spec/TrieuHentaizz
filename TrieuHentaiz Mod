@@ -316,8 +316,7 @@ Tab3:AddButton({
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
         local teamCheck = false
--- Combat Tab
-local CombatTab = Window:CreateTab("Combat", 4483362458)
+        local CombatTab = Window:CreateTab("Combat", 4483362458)
 
 local CombatSection = CombatTab:CreateSection("Kill Aura")
 
@@ -394,4 +393,5 @@ local BringAllItemsButton = ItemsTab:CreateButton({
           end
       end
    end,
+end
 })
