@@ -16,7 +16,7 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
         Notifi = {
         Notifications = true,
         CorrectKey = "Đã Mở Khóa Tiềm Năng...",
-       Incorrectkey = "The key is incorrect",
+       Incorrectkey = "Chìa khóa không đúng rồi Bro",
        CopyKeyLink = "Đã sao chép hãy đi tìm chìa khóa"
       }
     }
@@ -195,7 +195,7 @@ end
 })
 
 AddButton(Tab1o, {
-     Name = "Speed+nhảy [Tùy Chỉnh Menu]",
+     Name = "Speed [Tùy Chỉnh Menu]",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
