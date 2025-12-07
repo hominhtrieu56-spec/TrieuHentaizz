@@ -1,341 +1,56 @@
-loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V2/refs/heads/main/UiREDzV2.lua")))()
+--[[
+Ă‚Â© 2022 WeAreDevs | Đã bật chế độ nhảy
+Created and distributed by https://wearedevs.net/scripts
+March 9, 2022
 
-       local Window = MakeWindow({
-         Hub = {
-         Title = "Trieu Mod",
-         Animation = "Trình là gì mà phải sợ"
-         },
-        Key = {
-        KeySystem = false,
-        Title = "Key System",
-        Description = "",
-        KeyLink = "",
-        Keys = {"1234"},
-        Notifi = {
-        Notifications = true,
-        CorrectKey = "Running the Script...",
-       Incorrectkey = "The key is incorrect",
-       CopyKeyLink = "Copied to Clipboard"
-      }
-    }
-  })
+Step 1: Inject this script into any game using a Lua injector like JJSploit
+Step 2: When you get the ready notification, spam the space bar to jump as many times as you want
 
-       MinimizeButton({
-       Image = "http://www.roblox.com/asset/?id=122174741230044",
-       Size = {60, 60},
-       Color = Color3.fromRGB(10, 10, 10),
-       Corner = true,
-       Stroke = false,
-       StrokeColor = Color3.fromRGB(255, 0, 0)
-      })
-      
------- Tab
-     local Tab1o = MakeTab({Name = "Aim Bá Sàn"})
-     local Tab2o = MakeTab({Name = "Hitbox+Định vị"})
-     
-------- BUTTON
-    
-    AddButton(Tab1o, {
-     Name = "Aim PC",
-    Callback = function()
-	  local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
+Controls:
+Reinject the script to toggle the infinite jump script on or off.
+Excute Lua "G.infinjump = true" to explicity turn the infinite jump script on
+Excute Lua "G.infinjump = false" to explicity turn the infinite jump script off
+]]
 
-local fov = 100
-local smoothing = 1
+--Toggles the infinite jump between on or off on every script run
+_G.infinjump = not _G.infinjump
 
-local RunService = game:GetService("RunService")
+if _G.infinJumpStarted == nil then
+	--Ensures this only runs once to save resources
+	_G.infinJumpStarted = true
+	
+	--Notifies readiness
+	game.StarterGui:SetCore("SendNotification", {Title="wearedevs.net"; Text="Đã bật chế độ nhảy [TriềuMOD]!"; Duration=5;})
 
-local FOVring = Drawing.new("Circle")
-FOVring.Visible = true
-FOVring.Thickness = 1.5
-FOVring.Radius = fov
-FOVring.Transparency = 1
-FOVring.Color = Color3.fromRGB(255, 128, 128)
-FOVring.Position = workspace.CurrentCamera.ViewportSize/2
-
-local function getClosest(cframe)
-   local ray = Ray.new(cframe.Position, cframe.LookVector).Unit
-   
-   local target = nil
-   local mag = math.huge
-   
-   for i,v in pairs(game.Players:GetPlayers()) do
-       if v.Character and v.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("HumanoidRootPart") and v ~= game.Players.LocalPlayer and (v.Team ~= game.Players.LocalPlayer.Team or (not teamCheck)) then
-           local magBuf = (v.Character.Head.Position - ray:ClosestPoint(v.Character.Head.Position)).Magnitude
-           
-           if magBuf < mag then
-               mag = magBuf
-               target = v
-           end
-       end
-   end
-   
-   return target
+	--The actual infinite jump
+	local plr = game:GetService('Players').LocalPlayer
+	
+	function doJump()
+		if _G.infinjump then
+			humanoid = game:GetService'Players'.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
+			humanoid:ChangeState('Jumping')
+			wait()
+			humanoid:ChangeState('Seated')
+		end
+	end
+	
+	--PC Support
+	local m = plr:GetMouse()
+	m.KeyDown:connect(function(k)
+		if k:byte() == 32 then
+			doJump()
+		end
+	end)
+	
+	--Mobile support
+	local uis = game:GetService("UserInputService")
+	task.spawn(function()
+		local pg = plr:WaitForChild("PlayerGui")
+		local btn = pg:WaitForChild("TouchGui"):WaitForChild("TouchControlFrame"):WaitForChild("JumpButton", 3)
+		if btn then
+			btn.MouseButton1Down:Connect(doJump)
+		else
+			uis.JumpRequest:Connect(doJump)
+		end
+	end)
 end
-
-loop = RunService.RenderStepped:Connect(function()
-   local UserInputService = game:GetService("UserInputService")
-   local pressed = --[[UserInputService:IsKeyDown(Enum.KeyCode.E)]] UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) --Enum.UserInputType.MouseButton2
-   local localPlay = game.Players.localPlayer.Character
-   local cam = workspace.CurrentCamera
-   local zz = workspace.CurrentCamera.ViewportSize/2
-   
-   if pressed then
-       local Line = Drawing.new("Line")
-       local curTar = getClosest(cam.CFrame)
-       local ssHeadPoint = cam:WorldToScreenPoint(curTar.Character.Head.Position)
-       ssHeadPoint = Vector2.new(ssHeadPoint.X, ssHeadPoint.Y)
-       if (ssHeadPoint - zz).Magnitude < fov then
-           workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(CFrame.new(cam.CFrame.Position, curTar.Character.Head.Position), smoothing)
-       end
-   end
-   
-   if UserInputService:IsKeyDown(Enum.KeyCode.Delete) then
-       loop:Disconnect()
-       FOVring:Remove()
-   end
-end)
-
-  end
-  })
-
-AddButton(Tab1o, {
-     Name = "Aim Mobile",
-    Callback = function()
-	  local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
-local fov = 40
-local maxTransparency = 0.1 -- Transparência máxima dentro do círculo (0.1 = 10% de transparência)
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-local Cam = game.Workspace.CurrentCamera
-
-local FOVring = Drawing.new("Circle")
-FOVring.Visible = true
-FOVring.Thickness = 2
-FOVring.Color = Color3.fromRGB(128, 0, 128) -- Cor roxa
-FOVring.Filled = false
-FOVring.Radius = fov
-FOVring.Position = Cam.ViewportSize / 2
-
-local function updateDrawings()
-    local camViewportSize = Cam.ViewportSize
-    FOVring.Position = camViewportSize / 2
-end
-
-local function onKeyDown(input)
-    if input.KeyCode == Enum.KeyCode.Delete then
-        RunService:UnbindFromRenderStep("FOVUpdate")
-        FOVring:Remove()
-    end
-end
-
-UserInputService.InputBegan:Connect(onKeyDown)
-
-local function lookAt(target)
-    local lookVector = (target - Cam.CFrame.Position).unit
-    local newCFrame = CFrame.new(Cam.CFrame.Position, Cam.CFrame.Position + lookVector)
-    Cam.CFrame = newCFrame
-end
-
-local function calculateTransparency(distance)
-    -- Ajuste a transparência com base na distância do centro do círculo
-    local maxDistance = fov -- A distância máxima do centro do círculo
-    local transparency = (1 - (distance / maxDistance)) * maxTransparency
-    return transparency
-end
-
-local function getClosestPlayerInFOV(trg_part)
-    local nearest = nil
-    local last = math.huge
-    local playerMousePos = Cam.ViewportSize / 2
-
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= Players.LocalPlayer then
-            local part = player.Character and player.Character:FindFirstChild(trg_part)
-            if part then
-                local ePos, isVisible = Cam:WorldToViewportPoint(part.Position)
-                local distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
-
-                if distance < last and isVisible and distance < fov then
-                    last = distance
-                    nearest = player
-                end
-            end
-        end
-    end
-
-    return nearest
-end
-
-RunService.RenderStepped:Connect(function()
-    updateDrawings()
-    local closest = getClosestPlayerInFOV("Head")
-    if closest and closest.Character:FindFirstChild("Head") then
-        lookAt(closest.Character.Head.Position)
-    end
-    
-    if closest then
-        local ePos, isVisible = Cam:WorldToViewportPoint(closest.Character.Head.Position)
-        local distance = (Vector2.new(ePos.x, ePos.y) - (Cam.ViewportSize / 2)).Magnitude
-        FOVring.Transparency = calculateTransparency(distance)
-    else
-        FOVring.Transparency = 0.1 -- Mantenha completamente visível quando nenhum jogador estiver no FOV
-    end
-end)
-end
-})
-
-AddButton(Tab2o, {
-     Name = "HitBox 20%",
-    Callback = function()
-	  local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
-_G.HeadSize = 20
-_G.Disabled = true
-
-game:GetService('RunService').RenderStepped:connect(function()
-if _G.Disabled then
-for i,v in next, game:GetService('Players'):GetPlayers() do
-if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-pcall(function()
-v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
-v.Character.HumanoidRootPart.Transparency = 0.7
-v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
-v.Character.HumanoidRootPart.Material = "Neon"
-v.Character.HumanoidRootPart.CanCollide = false
-end)
-end
-end
-end
-end)
-end
-})
-
-AddButton(Tab2o, {
-     Name = "Hitbox 50%",
-    Callback = function()
-	  local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
-_G.HeadSize = 50
-_G.Disabled = true
-
-game:GetService('RunService').RenderStepped:connect(function()
-if _G.Disabled then
-for i,v in next, game:GetService('Players'):GetPlayers() do
-if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-pcall(function()
-v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
-v.Character.HumanoidRootPart.Transparency = 0.7
-v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
-v.Character.HumanoidRootPart.Material = "Neon"
-v.Character.HumanoidRootPart.CanCollide = false
-end)
-end
-end
-end
-end)
-end
-})
-
-AddButton(Tab2o, {
-     Name = "Hitbox 100%",
-    Callback = function()
-	  local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
-_G.HeadSize = 100
-_G.Disabled = true
-
-game:GetService('RunService').RenderStepped:connect(function()
-if _G.Disabled then
-for i,v in next, game:GetService('Players'):GetPlayers() do
-if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-pcall(function()
-v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
-v.Character.HumanoidRootPart.Transparency = 0.7
-v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
-v.Character.HumanoidRootPart.Material = "Neon"
-v.Character.HumanoidRootPart.CanCollide = false
-end)
-end
-end
-end
-end)
-end
-})
-
-AddButton(Tab2o, {
-     Name = "HitBox 200%",
-    Callback = function()
-	  local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
-_G.HeadSize = 200
-_G.Disabled = true
-
-game:GetService('RunService').RenderStepped:connect(function()
-if _G.Disabled then
-for i,v in next, game:GetService('Players'):GetPlayers() do
-if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-pcall(function()
-v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
-v.Character.HumanoidRootPart.Transparency = 0.7
-v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
-v.Character.HumanoidRootPart.Material = "Neon"
-v.Character.HumanoidRootPart.CanCollide = false
-end)
-end
-end
-end
-end)
-end
-})
-
-AddButton(Tab2o, {
-     Name = "Định vị cho mấy thằng mù [đang fix sử dụng có thể lag]",
-    Callback = function()
-	  local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
-local Esp = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/x114/RobloxScripts/main/OpenSourceEsp"))()
--- Boxes --
-Esp.Box = true
-Esp.BoxColor = Color3.fromRGB(255,255,255)
-Esp.BoxOutline = true
-Esp.BoxOutlineColor = Color3.fromRGB(0,0,0)
--- HealthBars --
-Esp.HealthBar = true
-Esp.HealthBarSide = "Left" -- Left,Bottom,Right
--- Names --
-Esp.Names = true
-Esp.NamesColor = Color3.fromRGB(255,255,255)
-Esp.NamesOutline = true
-Esp.NamesFont = 2
-Esp.NamesSize = 13
-end
-})
-
-AddButton(Tab1o, {
-     Name = "Chạy nhanh",
-    Callback = function()
-	  local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 35
-end
-})
