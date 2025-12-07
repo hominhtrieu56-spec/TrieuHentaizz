@@ -216,6 +216,17 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/hominhtrieu56-spec/Tr
 end
 })
 
+AddButton(Tab1o, {
+     Name = "Nhảy Liên Tục",
+    Callback = function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hominhtrieu56-spec/TrieuHentaizz/refs/heads/main/Bypass%20TrieuHentaiz%20-%20Sao%20ch%C3%A9p.txt"))()
+end
+})
+
 AddButton(Tab2o, {
      Name = "HitBox 20%",
     Callback = function()
