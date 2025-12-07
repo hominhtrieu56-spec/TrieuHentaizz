@@ -105,7 +105,7 @@ end)
   })
 
 AddButton(Tab1o, {
-     Name = "Aim PC",
+     Name = "Bay Phèo Phèo",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
