@@ -34,7 +34,7 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
 ------ Tab
      local Tab1o = MakeTab({Name = "Thông tin"})
      local Tab2o = MakeTab({Name = "Hitbox+Định vị"})
-     
+     local Tab3o = MakeTab({Name = "Player"})
 ------- BUTTON
     
     AddButton(Tab1o, {
@@ -104,7 +104,7 @@ end)
   end
   })
 
-AddButton(Tab1o, {
+AddButton(Tab3o, {
      Name = "Bay Phèo Phèo",
     Callback = function()
 	  local Settings = {
@@ -205,7 +205,7 @@ end)
 end
 })
 
-AddButton(Tab1o, {
+AddButton(Tab3o, {
      Name = "Speed [Tùy Chỉnh Menu]",
     Callback = function()
 	  local Settings = {
@@ -216,7 +216,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/hominhtrieu56-spec/Tr
 end
 })
 
-AddButton(Tab1o, {
+AddButton(Tab3o, {
      Name = "Nhảy Liên Tục",
     Callback = function()
 	  local Settings = {
