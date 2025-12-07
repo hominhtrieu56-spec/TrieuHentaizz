@@ -2,7 +2,7 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
 
        local Window = MakeWindow({
          Hub = {
-         Title = "Triều Hentaiz[PVP]",
+         Title = "Triều Hentaiz[PVP] V2",
          SubTitle = "Cực bá",
          Theme = "Red",
          Animation = "Trình là gì mà phải sợ"
