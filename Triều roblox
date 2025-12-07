@@ -339,7 +339,7 @@ end)
 end
 })
 
-AddButton(Tab2o, {
+AddButton(Tab3o, {
      Name = "Định vị cho mấy thằng mù [đang fix sử dụng có thể lag]",
     Callback = function()
 	  local Settings = {
