@@ -6,8 +6,6 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
          SubTitle = "Cực bá",
          Theme = "Red",
          Animation = "Trình là gì mà phải sợ"
-         local image = script.Parent -- ImageLabel hoặc ImageButton
-         image.Image = "rbxassetid://72718923618686"
          },
         Key = {
         KeySystem = true,
@@ -27,7 +25,7 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
        MinimizeButton({
        Image = "http://www.roblox.com/asset/?id=72718923618686",
        Size = {60, 60},
-       Color = Color3.fromRGB(10, 10, 10),
+       Color = Color6.fromRGB(0, 0, 225),
        Corner = true,
        Stroke = false,
        StrokeColor = Color3.fromRGB(255, 0, 0)
