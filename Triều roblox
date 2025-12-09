@@ -400,12 +400,12 @@ end
 })
 
 AddButton(Tab1o, {
-     Name = "Chạy nhanh",
+     Name = "Chạy nhanh[Tự động chỉnh]",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
   Translator = true; -- true/false
 }
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 35
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 45
 end
 })
