@@ -9,7 +9,7 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
          },
         Key = {
         KeySystem = true,
-        Title = "Mở Khóa Tiềm Năng",
+        Title = "Mở Khóa Tiềm Năng [chìa khóa vĩnh viễn]",
         Description = "",
         KeyLink = "https://anotepad.com/notes/8bar662p",
         Keys = {"Trieudepzaiz"},
