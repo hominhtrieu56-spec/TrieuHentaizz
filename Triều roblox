@@ -5,7 +5,7 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
          Title = "Triều MeMe HUB",
          SubTitle = "Cực bá",
          Theme = "Red",
-         Animation = "Đăng Nhập Thành Công"
+         Animation = "Key Chính Xác"
          },
         Key = {
         KeySystem = true,
