@@ -49,8 +49,7 @@ end
 })
 
 AddButton(Tab0o, {
-     Name = "Muốn Biết Khi Nào Sẽ Update Phiên Bản Mới Thì Vui Lòng Tham Gia Discord
-Để Nhận Thông Báo Khi có phiên bản mới và biết sẽ update thêm script của game nào Cảm Ơn",
+     Name = "Muốn Biết Khi Nào Sẽ Update Phiên Bản Mới Thì Vui Lòng Tham Gia Discord",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
