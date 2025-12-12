@@ -47,6 +47,11 @@ AddButton(Tab0o, {
   JoinTeam = "Pirates"; -- Pirates/Marines
   Translator = true; -- true/false
 }
+KeyLink = "https://anotepad.com/notes/8bar662p",
+        Keys = {"Trieudepzaiz"},
+        Notifi = {
+        Notifications = true
+        copykeylink = "OK"
 end
 })
 
