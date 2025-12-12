@@ -241,12 +241,20 @@ end
 })
 
 AddButton(Tab1o, {
-     Name = "Chạy nhanh[Tự động chỉnh]",
+     Name = "PePeHook",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
   Translator = true; -- true/false
 }
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 45
+--[[ 
+
+yes no key system at the moment & for free.
+Mobile Supported
+Halfy Xeno & Solara Supported
+
+Discord: https://discord.gg/pepehook
+--]] 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/GiftStein1/pepehook-loader/refs/heads/main/loader.lua"))()
 end
 })
