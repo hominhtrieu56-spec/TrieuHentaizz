@@ -2,14 +2,14 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
 
        local Window = MakeWindow({
          Hub = {
-         Title = "Triều Hentaiz[PVP] V3",
+         Title = "Triều MeMe HUB",
          SubTitle = "Cực bá",
          Theme = "Red",
-         Animation = "Trình là gì mà phải sợ"
+         Animation = "Đăng Nhập Thành Công"
          },
         Key = {
         KeySystem = true,
-        Title = "Mở Khóa Tiềm Năng [chìa khóa vĩnh viễn]",
+        Title = "Mở Khóa Tiềm Năng [Key]",
         Description = "",
         KeyLink = "https://anotepad.com/notes/8bar662p",
         Keys = {"Trieudepzaiz"},
@@ -32,75 +32,19 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
       })
       
 ------ Tab
-     local Tab1o = MakeTab({Name = "Thông tin"})
-     local Tab2o = MakeTab({Name = "Hitbox+Định vị"})
-     local Tab3o = MakeTab({Name = "Player"})
+     local Tab1o = MakeTab({Name = "The Forge"})
+     local Tab2o = MakeTab({Name = "Blox Fruit"})
+     local Tab3o = MakeTab({Name = "PVP"})
 ------- BUTTON
     
     AddButton(Tab1o, {
-     Name = "Aim PC",
+     Name = "TOASTY HUB",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
   Translator = true; -- true/false
 }
-
-local fov = 100
-local smoothing = 1
-
-local RunService = game:GetService("RunService")
-
-local FOVring = Drawing.new("Circle")
-FOVring.Visible = true
-FOVring.Thickness = 1.5
-FOVring.Radius = fov
-FOVring.Transparency = 1
-FOVring.Color = Color3.fromRGB(255, 128, 128)
-FOVring.Position = workspace.CurrentCamera.ViewportSize/2
-
-local function getClosest(cframe)
-   local ray = Ray.new(cframe.Position, cframe.LookVector).Unit
-   
-   local target = nil
-   local mag = math.huge
-   
-   for i,v in pairs(game.Players:GetPlayers()) do
-       if v.Character and v.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("HumanoidRootPart") and v ~= game.Players.LocalPlayer and (v.Team ~= game.Players.LocalPlayer.Team or (not teamCheck)) then
-           local magBuf = (v.Character.Head.Position - ray:ClosestPoint(v.Character.Head.Position)).Magnitude
-           
-           if magBuf < mag then
-               mag = magBuf
-               target = v
-           end
-       end
-   end
-   
-   return target
-end
-
-loop = RunService.RenderStepped:Connect(function()
-   local UserInputService = game:GetService("UserInputService")
-   local pressed = --[[UserInputService:IsKeyDown(Enum.KeyCode.E)]] UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) --Enum.UserInputType.MouseButton2
-   local localPlay = game.Players.localPlayer.Character
-   local cam = workspace.CurrentCamera
-   local zz = workspace.CurrentCamera.ViewportSize/2
-   
-   if pressed then
-       local Line = Drawing.new("Line")
-       local curTar = getClosest(cam.CFrame)
-       local ssHeadPoint = cam:WorldToScreenPoint(curTar.Character.Head.Position)
-       ssHeadPoint = Vector2.new(ssHeadPoint.X, ssHeadPoint.Y)
-       if (ssHeadPoint - zz).Magnitude < fov then
-           workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(CFrame.new(cam.CFrame.Position, curTar.Character.Head.Position), smoothing)
-       end
-   end
-   
-   if UserInputService:IsKeyDown(Enum.KeyCode.Delete) then
-       loop:Disconnect()
-       FOVring:Remove()
-   end
-end)
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/nouralddin-abdullah/Airlines/refs/heads/main/Forge.lua"))()
   end
   })
 
@@ -116,37 +60,13 @@ end
 })
 
 AddButton(Tab3o, {
-     Name = "Xuyên tường",
+     Name = "TrieuHentaiz",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
   Translator = true; -- true/false
 }
-local Noclip = nil
-local Clip = nil
-
-function noclip()
-	Clip = false
-	local function Nocl()
-		if Clip == false and game.Players.LocalPlayer.Character ~= nil then
-			for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-				if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
-					v.CanCollide = false
-				end
-			end
-		end
-		wait(0.21) -- basic optimization
-	end
-	Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
-end
-
-function clip()
-	if Noclip then Noclip:Disconnect() end
-	Clip = true
-end
-
-noclip() -- to toggle noclip() and clip()
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hominhtrieu56-spec/sCRIPT-sHARE/refs/heads/main/ScriptPVP%20TrieuHentaiz%20V3.lua"))()
 end
 })
 
