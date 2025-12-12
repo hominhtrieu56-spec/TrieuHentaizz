@@ -70,13 +70,15 @@ AddButton(Tab0o, {
 end
 })
 
-AddButton(Tab1o, {
+AddButton(Tab0o, {
      Name = "Tham Gia Discord Để Biết Khi Nào Update",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
   Translator = true; -- true/false
 }
+end
+})
     
     AddButton(Tab1o, {
      Name = "TOASTY HUB",
