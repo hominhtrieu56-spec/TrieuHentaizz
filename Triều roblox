@@ -32,10 +32,37 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
       })
       
 ------ Tab
+     local Tab0o = MakeTab({Name = "Thông Tin"})
      local Tab1o = MakeTab({Name = "The Forge"})
      local Tab2o = MakeTab({Name = "Blox Fruit"})
      local Tab3o = MakeTab({Name = "PVP"})
 ------- BUTTON
+
+AddButton(Tab0o, {
+     Name = "Hiện tại Script Chỉ Mới V1 Chưa Hỗ Trợ Script Nhiều Game Được",
+    Callback = function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+end
+})
+
+AddButton(Tab0o, {
+     Name = "Muốn Biết Khi Nào Sẽ Update Phiên Bản Mới Thì Vui Lòng Tham Gia Discord
+Để Nhận Thông Báo Khi có phiên bản mới và biết sẽ update thêm script của game nào Cảm Ơn",
+    Callback = function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+KeyLink = "https://anotepad.com/notes/8bar662p",
+        Keys = {"Trieudepzaiz"},
+        Notifi = {
+        Notifications = true
+        copykeylink = "Đã Hoàn Thành Sao Chép"
+end
+})
     
     AddButton(Tab1o, {
      Name = "TOASTY HUB",
@@ -47,6 +74,17 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
 loadstring(game:HttpGet("https://raw.githubusercontent.com/nouralddin-abdullah/Airlines/refs/heads/main/Forge.lua"))()
   end
   })
+
+AddButton(Tab1o, {
+     Name = "MIRAGE HUB[Khuyên Nên Lại Gần Chỗ Quặng Rồi Bật Fram]",
+    Callback = function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/2075c39b9a5a2e4414c59c93fe8a5f06.lua"))()
+end
+})
 
 AddButton(Tab3o, {
      Name = "Bay Phèo Phèo",
@@ -71,7 +109,7 @@ end
 })
 
 AddButton(Tab1o, {
-     Name = "Voidw0 Hub",
+     Name = "VOIDW0 HUB",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
@@ -241,7 +279,7 @@ end
 })
 
 AddButton(Tab1o, {
-     Name = "PePeHook",
+     Name = "PEPEHOOK HUB",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
