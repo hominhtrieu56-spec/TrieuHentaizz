@@ -41,22 +41,17 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
 ------- BUTTON
 
 AddButton(Tab0o, {
-     Name = "Hiện tại Script Chỉ Mới V1 Chưa Hỗ Trợ Script Nhiều Game Được",
+     Name = "Tham Gia Discord Để Nhận Thông Báo",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
   Translator = true; -- true/false
 }
-KeyLink = "https://anotepad.com/notes/8bar662p",
-        Keys = {"Trieudepzaiz"},
-        Notifi = {
-        Notifications = true
-        copykeylink = "OK"
 end
 })
 
 AddButton(Tab0o, {
-     Name = "Muốn Biết Khi Nào Sẽ Update Phiên Bản Mới Thì Vui Lòng Tham Gia Discord",
+     Name = "Link Discord để Cùng Link Key",
     Callback = function()
 	  local Settings = {
   JoinTeam = "Pirates"; -- Pirates/Marines
@@ -64,6 +59,24 @@ AddButton(Tab0o, {
 }
 end
 })
+
+AddButton(Tab0o, {
+     Name = "Chỉ Mới V1 Nên Không Đòi Hỏi Nhiều Cảm Ơn",
+    Callback = function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+end
+})
+
+AddButton(Tab1o, {
+     Name = "Tham Gia Discord Để Biết Khi Nào Update",
+    Callback = function()
+	  local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
     
     AddButton(Tab1o, {
      Name = "TOASTY HUB",
