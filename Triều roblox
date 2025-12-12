@@ -2,7 +2,7 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
 
        local Window = MakeWindow({
          Hub = {
-         Title = "Triều MeMe HUB",
+         Title = "Triều MeMe HUB[V1]",
          SubTitle = "Cực bá",
          Theme = "Red",
          Animation = "Key Chính Xác"
