@@ -112,7 +112,7 @@ function showAutoFarmGUI()
  
     -- Toggle Button for Show/Hide Second GUI
     local HideShowButton = Instance.new("TextButton", Frame)
-    HideShowButton.Text = "Hide GUI"
+    HideShowButton.Text = "Ẩn Menu"
     HideShowButton.Size = UDim2.new(0.8, 0, 0.2, 0)
     HideShowButton.Position = UDim2.new(0.1, 0, 0.7, 0)
     HideShowButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -147,7 +147,7 @@ function showAutoFarmGUI()
             secondGui.Enabled = true
             HideShowButton.Text = "Hide GUI"
         else
-            secondGui.Enabled = false
+            secondGui.Enabled = true
             HideShowButton.Text = "Show GUI"
         end
     end)
@@ -202,7 +202,7 @@ function startAutoFarm(CoinsLabel)
  
                 -- Fly with boosted speed
                 bodyVelocity = Instance.new("BodyVelocity")
-                bodyVelocity.MaxForce = Vector3.new(5000, 5000, 5000)
+                bodyVelocity.MaxForce = Vector3.new(2000, 2000, 2000)
                 bodyVelocity.Velocity = Vector3.new(0, 0, flySpeed)
                 bodyVelocity.Parent = hrp
  
