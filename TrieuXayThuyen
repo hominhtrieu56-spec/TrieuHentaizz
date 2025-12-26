@@ -175,7 +175,7 @@ function startAntiAFK()
                 -- Simulate movement to avoid AFK detection
                 hrp.CFrame = hrp.CFrame * CFrame.new(0, 0, math.random(-1, 1))
             end
-            wait(2) -- Move every 0,5 seconds
+            wait(2) -- Move every 2 seconds
         end
     end)
 end
