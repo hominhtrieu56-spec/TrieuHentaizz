@@ -1,5 +1,5 @@
-local key = "123456789"
-local discordLink = "https://discord.gg/7pPaRBamqb"
+local key = "Trieudepzaiz"
+local discordLink = "https://anotepad.com/notes/8bar662p"
 local autoFarming = false
 local flySpeed = 390.45 -- Fly speed for 1400 km/h (updated speed)
 local flyDuration = 21 -- Flying duration in seconds
@@ -36,14 +36,14 @@ KeyInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
  
 local SubmitButton = Instance.new("TextButton", Frame)
-SubmitButton.Text = "Key thành công"
+SubmitButton.Text = "Xác nhận key"
 SubmitButton.Size = UDim2.new(0.8, 0, 0.2, 0)
 SubmitButton.Position = UDim2.new(0.1, 0, 0.8, 0)
 SubmitButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 SubmitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
  
 local DiscordButton = Instance.new("TextButton", Frame)
-DiscordButton.Text = "Discord Link for Key"
+DiscordButton.Text = "Get Key"
 DiscordButton.Size = UDim2.new(0.8, 0, 0.2, 0)
 DiscordButton.Position = UDim2.new(0.1, 0, 0.6, 0)
 DiscordButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -64,7 +64,7 @@ DiscordButton.MouseButton1Click:Connect(function()
     if setclipboard then
         setclipboard(discordLink)
         game.StarterGui:SetCore("SendNotification", {
-            Title = "Discord Link Copied",
+            Title = "Đã sao chép key",
             Text = "Join the server for key!",
             Duration = 3
         })
@@ -78,8 +78,8 @@ SubmitButton.MouseButton1Click:Connect(function()
         showAutoFarmGUI()
     else
         game.StarterGui:SetCore("SendNotification", {
-            Title = "Invalid Key",
-            Text = "Try Again.",
+            Title = "Key Không hợp lệ",
+            Text = "Thành công.",
             Duration = 3
         })
     end
