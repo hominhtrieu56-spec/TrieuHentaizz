@@ -1,5 +1,5 @@
 local key = "123456789"
-local discordLink = "https://discord.gg/9Byz7ZZxxN"
+local discordLink = "https://discord.gg/7pPaRBamqb"
 local autoFarming = false
 local flySpeed = 390.45 -- Fly speed for 1400 km/h (updated speed)
 local flyDuration = 21 -- Flying duration in seconds
@@ -22,7 +22,7 @@ Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
  
 local Title = Instance.new("TextLabel", Frame)
 Title.Size = UDim2.new(1, 0, 0.2, 0)
-Title.Text = "BABFT Auto Farm | Enter Key"
+Title.Text = "TrieuGay Auto Farm | Enter Key"
 Title.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.GothamBold
@@ -36,7 +36,7 @@ KeyInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
  
 local SubmitButton = Instance.new("TextButton", Frame)
-SubmitButton.Text = "Submit Key"
+SubmitButton.Text = "Key thành công"
 SubmitButton.Size = UDim2.new(0.8, 0, 0.2, 0)
 SubmitButton.Position = UDim2.new(0.1, 0, 0.8, 0)
 SubmitButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -53,7 +53,7 @@ DiscordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 local UpdateMessage = Instance.new("TextLabel", Frame)
 UpdateMessage.Size = UDim2.new(1, 0, 0.2, 0)
 UpdateMessage.Position = UDim2.new(0, 0, 0.1, 0)
-UpdateMessage.Text = "UPDATE 2 MADE BY KIRA"
+UpdateMessage.Text = "Admin TrieuVN"
 UpdateMessage.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 UpdateMessage.TextColor3 = Color3.fromRGB(255, 255, 255)
 UpdateMessage.Font = Enum.Font.GothamBold
